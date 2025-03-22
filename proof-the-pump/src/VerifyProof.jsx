@@ -38,7 +38,7 @@ const VERIFIER_ABI = [
   },
 ];
 
-function VerifyProof({ proof, publicInputs }) {
+function VerifyProof({ proof, publicInputs, selectedPump, onVerified }) {
   const [verificationResult, setVerificationResult] = useState(null);
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -72,6 +72,10 @@ function VerifyProof({ proof, publicInputs }) {
         publicInputs
       );
       setVerificationResult(isValid);
+
+      if (isValid && onVerified) {
+        onVerified(selectedPump.id);
+      }
     } catch (error) {
       console.error("Error verifying proof:", error);
       alert("Failed to verify proof on-chain");
@@ -84,10 +88,19 @@ function VerifyProof({ proof, publicInputs }) {
   const simulateVerification = () => {
     setIsVerifying(true);
     setTimeout(() => {
-      setVerificationResult(true);
+      const result = true; // Simulate successful verification
+      setVerificationResult(result);
       setIsVerifying(false);
+
+      if (result && onVerified && selectedPump) {
+        onVerified(selectedPump.id);
+      }
     }, 2000);
   };
+
+  if (!proof || !selectedPump) {
+    return null;
+  }
 
   return (
     <div
@@ -99,20 +112,32 @@ function VerifyProof({ proof, publicInputs }) {
       }}
     >
       <h2>Verify Proof On-Chain</h2>
+      <p>
+        Verify your eligibility for <strong>{selectedPump.name}</strong>{" "}
+        on-chain without revealing your actual balance
+      </p>
 
       <button
         onClick={simulateVerification}
-        disabled={isVerifying}
+        disabled={isVerifying || verificationResult !== null}
         style={{
           padding: "8px 15px",
+          width: "100%",
           backgroundColor: "#9b59b6",
           color: "white",
           border: "none",
           borderRadius: "4px",
-          cursor: isVerifying ? "not-allowed" : "pointer",
+          cursor:
+            isVerifying || verificationResult !== null
+              ? "not-allowed"
+              : "pointer",
         }}
       >
-        {isVerifying ? "Verifying..." : "Verify Proof On-Chain"}
+        {isVerifying
+          ? "Verifying..."
+          : verificationResult !== null
+          ? "Verified"
+          : "Verify Proof On-Chain"}
       </button>
 
       {verificationResult !== null && (
@@ -120,7 +145,8 @@ function VerifyProof({ proof, publicInputs }) {
           <h3>Verification Result</h3>
           {verificationResult ? (
             <p style={{ color: "green" }}>
-              ✅ Proof verified successfully! You are eligible to participate.
+              ✅ Proof verified successfully! You are eligible to participate in{" "}
+              {selectedPump.name}.
             </p>
           ) : (
             <p style={{ color: "red" }}>
