@@ -1,0 +1,17 @@
+{
+  "inputs": [
+    {
+      "name": "ethBalance",
+      "public": false,
+      "type": "field"
+    },
+    {
+      "name": "requiredThreshold",
+      "public": true,
+      "type": "field"
+    }
+  ],
+  "output": {
+    "type": "bool"
+  }
+}

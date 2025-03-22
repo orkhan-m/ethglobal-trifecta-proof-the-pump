@@ -1,0 +1,9 @@
+// root.zok - ETH Balance Eligibility Verification
+// This program checks if a user's ETH balance exceeds the required threshold
+// for participation in token pump events.
+
+def main(private field ethBalance, field requiredThreshold) -> bool {
+  // Compare user's private ETH balance with the required threshold
+  // Returns true if eligible (balance >= threshold), false otherwise
+  return ethBalance >= requiredThreshold;
+}

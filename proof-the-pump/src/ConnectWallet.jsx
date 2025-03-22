@@ -1,10 +1,7 @@
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function ConnectWallet() {
-  const [address, setAddress] = useState(null);
-  const [balance, setBalance] = useState(null);
-
+function ConnectWallet({ address, setAddress, balance, setBalance }) {
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
@@ -19,7 +16,7 @@ function ConnectWallet() {
         alert("Network changed! Please reconnect wallet.");
       });
     }
-  }, []);
+  }, [setAddress, setBalance]);
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -29,10 +26,9 @@ function ConnectWallet() {
         const userAddress = await signer.getAddress();
         setAddress(userAddress);
 
-        // Fetch Sepolia ETH balance
-        const sepBalance = await provider.getBalance(userAddress);
-        console.log();
-        setBalance(ethers.formatEther(sepBalance));
+        // Fetch ETH balance
+        const ethBalance = await provider.getBalance(userAddress);
+        setBalance(ethers.formatEther(ethBalance));
       } catch (err) {
         console.error("User rejected connection: ", err);
       }
@@ -42,16 +38,39 @@ function ConnectWallet() {
   };
 
   return (
-    <div>
-      <p>Connect Wallet</p>
+    <div
+      style={{
+        padding: "15px",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        marginBottom: "20px",
+      }}
+    >
+      <h2>Connect Your Wallet</h2>
       {!address ? (
-        <button onClick={connectWallet}>Connect Wallet</button>
+        <button
+          onClick={connectWallet}
+          style={{
+            padding: "8px 15px",
+            backgroundColor: "#3498db",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Connect Wallet
+        </button>
       ) : (
-        <>
-          <p>Connected: {address}</p>
-          <p>Balance: {balance} ETH</p>
-          <p>Balance: {parseFloat(balance).toFixed(4)} ETH</p>
-        </>
+        <div>
+          <p>
+            <strong>Connected:</strong> {address.slice(0, 6)}...
+            {address.slice(-4)}
+          </p>
+          <p>
+            <strong>Balance:</strong> {parseFloat(balance).toFixed(4)} ETH
+          </p>
+        </div>
       )}
     </div>
   );
