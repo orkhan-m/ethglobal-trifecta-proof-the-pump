@@ -5,9 +5,10 @@ A decentralized application that uses zero-knowledge proofs to verify user eligi
 ## Key Features
 
 - **Privacy-Preserving**: Verify ETH balance thresholds without revealing the actual balance
+- **Create Pumps**: Any user can create token pump events with customizable ETH thresholds
 - **ZK Proof Generation**: Create zero-knowledge proofs of your ETH balance
 - **On-Chain Verification**: Verify proofs using the deployed Verifier contract
-- **User-Friendly Interface**: Simple UI for connecting wallets and generating proofs
+- **User-Friendly Interface**: Simple UI for connecting wallets, creating pumps, and generating proofs
 
 ## Technical Implementation
 
@@ -35,19 +36,38 @@ This project uses:
    ```
    npm run dev
    ```
-4. Connect your wallet and generate a proof!
+4. Connect your wallet, create or join a pump, and generate proofs!
+
+## How It Works
+
+### Creating a Pump
+
+1. Connect your wallet
+2. Navigate to the "Create a Pump" tab
+3. Specify a name, description, and ETH threshold
+4. Create the pump - it will become available to all users
+
+### Participating in a Pump
+
+1. Connect your wallet
+2. Browse available pumps in the "Participate in Pumps" tab
+3. Select a pump you want to join
+4. Generate a zero-knowledge proof of your ETH balance
+5. Verify the proof on-chain without revealing your actual balance
+6. Once verified, you're added to the pump participants list
 
 ## How ZK Proofs Work in This Project
 
 1. User connects their wallet
 2. Frontend captures the ETH balance
-3. User specifies a threshold to prove their balance exceeds
+3. User selects a pump with a specific threshold
 4. A zero-knowledge proof is generated (proving ETH balance ≥ threshold)
 5. The proof can be verified on-chain without revealing the user's actual balance
 
 ## Future Enhancements
 
-- Integrate with actual token pump events
+- Integrate with actual token distribution mechanisms
 - Add support for multiple tokens and networks
 - Implement witness generation directly in the browser
 - Add proof persistence in a database
+- Support token gating features based on proof verification
