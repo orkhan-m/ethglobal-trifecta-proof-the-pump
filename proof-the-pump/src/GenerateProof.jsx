@@ -4,6 +4,8 @@ import { ethers } from "ethers";
 // Import the proof.json, abi.json and verification key
 // In a real app, you would generate these dynamically
 import proofTemplate from "../../zk-proof/proof.json";
+import abiTemplate from "../../zk-proof/abi.json";
+import verificationKey from "../../zk-proof/verification.key";
 
 function GenerateProof({ address, balance, selectedPump, onProofGenerated }) {
   const [isEligible, setIsEligible] = useState(null);

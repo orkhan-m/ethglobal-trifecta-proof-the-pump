@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 // In a real app, this would be the deployed verifier contract address
 // You would deploy the verifier.sol contract to a testnet/mainnet
-const VERIFIER_CONTRACT_ADDRESS = "0x..."; // Add your deployed contract address here
+const VERIFIER_CONTRACT_ADDRESS = "0xcCC3c1175b0e61D927CDF7893297ff70924caAE0"; // Add your deployed contract address here
 
 // ABI for the verifier contract
 const VERIFIER_ABI = [
